@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 var helpers = require('../helpers'),
+    log = require('../../../logger'),
     _ = require('underscore.string');
 
 module.exports = function (table, item) {
@@ -9,6 +10,8 @@ module.exports = function (table, item) {
         columnNames = [],
         valueParams = [],
         parameters = [];
+        
+    log.silly('##############################################module.exports in insert.js');
 
     Object.keys(item).forEach(function (prop) {
         if (helpers.isSystemProperty(prop)) {
@@ -25,6 +28,8 @@ module.exports = function (table, item) {
         }
     });
 
+    log.silly('##############################################insert.js 2');
+    
     var sql = columnNames.length > 0
         ? _.sprintf("INSERT INTO %s (%s) VALUES (%s); ", tableName, columnNames.join(','), valueParams.join(','))
         : _.sprintf("INSERT INTO %s DEFAULT VALUES; ", tableName)
@@ -33,6 +38,15 @@ module.exports = function (table, item) {
         sql += _.sprintf('SELECT * FROM %s WHERE [id] = SCOPE_IDENTITY()', tableName);
     else
         sql += _.sprintf('SELECT * FROM %s WHERE [id] = @id', tableName);
+
+    log.silly('##############################################insert.js 3');
+    
+    try {
+            log.silly('##############################################insert.js ' + sql);
+
+    } catch (ex) {
+            log.silly('##############################################insert.js errror' + ex);
+    }
 
     return {
         sql: sql,

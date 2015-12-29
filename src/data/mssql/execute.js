@@ -23,6 +23,7 @@ module.exports = function (config, sql) {
     return connectionPromise.then(executeRequest);
 
     function executeRequest() {
+        log.silly('##############################################executeRequest');
         var request = new mssql.Request(connection);
 
         var statements = sql;

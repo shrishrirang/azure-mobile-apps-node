@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 var helpers = require('../helpers'),
+    log = require('../../../logger'),
     mssql = require('mssql'),
     _ = require('underscore.string');
 
@@ -10,6 +11,8 @@ module.exports = function (table, item) {
         setStatements = [],
         versionValue,
         parameters = [];
+
+            log.silly('##############################################update 1');
 
     for (var prop in item) {
         if(item.hasOwnProperty(prop)) {
